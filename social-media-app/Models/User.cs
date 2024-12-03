@@ -25,7 +25,5 @@ namespace social_media_app.Models
         [JsonIgnore] public List<Comment> likedComment { get; set; } = new List<Comment>();
         [JsonIgnore] public List<Story> stories { get; set; } = new List<Story>();
         [JsonIgnore] public List<Reels> reels { get; set; } = new List<Reels>();
-
-
     }
 }

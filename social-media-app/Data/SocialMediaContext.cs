@@ -36,8 +36,7 @@ namespace social_media_app.Data
             modelBuilder.Entity<User>().ToTable("users")
                 .HasMany(e => e.savedPost)
                 .WithMany(e => e.saved)
-                .UsingEntity(
-                    "users_saved_post");
+                .UsingEntity("users_saved_post");
 
             modelBuilder.Entity<User>().ToTable("users")
                 .HasMany(e => e.likedPost)

@@ -17,6 +17,7 @@ builder.Services.AddDbContext<SocialMediaContext>(option => option.UseSqlServer(
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<PasswordHasher<User>>();
+builder.Services.AddScoped<IPostRepository, PostRepository>();
 
 
 //var secretKey = builder.Configuration["Appsettings:SecretKey"];
