@@ -8,7 +8,7 @@ using System.Net;
 
 namespace social_media_app.Controllers
 {
-    [Route("")]
+    [Route("api/")]
     [ApiController]
     public class CommentsController : ControllerBase
     {
@@ -23,7 +23,7 @@ namespace social_media_app.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpGet("api/comments/{id}")]
+        [HttpGet("comments/{id}")]
         [Authorize]
         public async Task<ActionResult<Comment>> GetComment(int id)
         {
@@ -31,13 +31,12 @@ namespace social_media_app.Controllers
             return Ok(comment);
         }
 
-        [HttpPost("api/comments/post/{postId}")]
+        [HttpPost("comments/post/{postId}")]
         [Authorize]
         public async Task<ActionResult<Comment>> CreateComment([FromBody] Comment comment, int postId, [FromHeader(Name = "Authorization")] string jwt)
         {
             try
             {
-                jwt = jwt.Replace("Bearer ", string.Empty);
                 var reqUser = await _userRepository.FindUserByJwt(jwt);
 
                 var createComment = await _commentRepository.CreateComment(comment, postId, reqUser.Id);
@@ -50,13 +49,12 @@ namespace social_media_app.Controllers
             }
         }
 
-        [HttpPut("api/comments/like/{commentId}")]
+        [HttpPut("comments/like/{commentId}")]
         [Authorize]
         public async Task<ActionResult<Comment>> LikeComment(int commentId, [FromHeader(Name = "Authorization")] string jwt)
         {
             try
             {
-                jwt = jwt.Replace("Bearer ", string.Empty);
                 var reqUser = await _userRepository.FindUserByJwt(jwt);
                 var likeComment = await _commentRepository.LikeComment(commentId, reqUser.Id);
 
