@@ -23,6 +23,7 @@ builder.Services.AddScoped<IReelsRepository, ReelsRepository>();
 builder.Services.AddScoped<IStoryRepository, StoryRepository>();
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddScoped<ICommentRepository,CommentRepository>();
 
 
 //var secretKey = builder.Configuration["Appsettings:SecretKey"];
