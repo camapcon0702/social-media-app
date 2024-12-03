@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 
 namespace social_media_app.Controllers
 {
-    [Route("")]
+    [Route("api/")]
     [ApiController]
     public class PostsController : ControllerBase
     {
@@ -25,16 +25,15 @@ namespace social_media_app.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpPost("api/posts/users")]
+        [HttpPost("posts/users")]
         [Authorize]
         public async Task<ActionResult<Post>> CreatNewPost([FromBody] Post post, [FromHeader(Name = "Authorization")] string jwt)
         {
             try
             {
-                jwt = jwt.Replace("Bearer ", string.Empty);
                 var reqUser = await _userRepository.FindUserByJwt(jwt);
                 var newPost = await _postRepository.CreatePost(post, reqUser.Id);
-                return StatusCode(StatusCodes.Status202Accepted, newPost);
+                return Ok(newPost);
             }
             catch (Exception ex)
             {
@@ -42,20 +41,19 @@ namespace social_media_app.Controllers
             }
         }
 
-        [HttpGet("api/posts")]
+        [HttpGet("posts")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<Post>>> GetAllPosts()
         {
             return await _postRepository.GetAllPosts();
         }
 
-        [HttpDelete("api/posts/{postId}")]
+        [HttpDelete("posts/{postId}")]
         [Authorize]
         public async Task<ActionResult<ApiResponse>> DeletePost(int postId, [FromHeader(Name = "Authorization")] string jwt)
         {
             try
             {
-                jwt = jwt.Replace("Bearer ", string.Empty);
                 var reqUser = await _userRepository.FindUserByJwt(jwt);
 
                 var message = await _postRepository.DeletePost(postId, reqUser.Id);
@@ -73,21 +71,53 @@ namespace social_media_app.Controllers
             }
         }
 
-        [HttpGet("api/posts/{postId}")]
+        [HttpGet("posts/{postId}")]
         [Authorize]
         public async Task<ActionResult<Post>> FindPostByIdHandler(int postId)
         {
             var post = await _postRepository.FindPostById(postId);
-            return Accepted(post);
+            return Ok(post);
         }
 
-        [HttpGet("api/posts/user/{userId}")]
+        [HttpGet("posts/user/{userId}")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<Post>>> FindUsersPost(int userId)
         {
             var posts = await _postRepository.FindPostsByUserId(userId);
-            return posts;
+            return Ok(posts);
         }
 
+
+        [HttpPut("save/posts/{postId}")]
+        [Authorize]
+        public async Task<ActionResult<Post>> SavedPostHandler(int postId, [FromHeader(Name = "Authorization")] string jwt)
+        {
+            try
+            {
+                var reqUser = await _userRepository.FindUserByJwt(jwt);
+                var post = await _postRepository.SavePost(postId, reqUser.Id);
+                return Ok(post);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Can't save post");
+            }
+        }
+
+        [HttpPut("posts/like/{postId}")]
+        [Authorize]
+        public async Task<ActionResult<Post>> LikedPostHandler(int postId, [FromHeader(Name = "Authorization")] string jwt)
+        {
+            try
+            {
+                var reqUser = await _userRepository.FindUserByJwt(jwt);
+                var post = await _postRepository.LikePost(postId, reqUser.Id);
+                return Ok(post);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error!");
+            }
+        }
     }
 }

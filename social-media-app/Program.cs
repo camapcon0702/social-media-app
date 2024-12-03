@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using social_media_app.Data;
 using social_media_app.Interfaces;
+using social_media_app.IRepository;
 using social_media_app.Models;
 using social_media_app.Repository;
 using System.Security.Cryptography;
@@ -18,6 +19,10 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<PasswordHasher<User>>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<IReelsRepository, ReelsRepository>();
+builder.Services.AddScoped<IStoryRepository, StoryRepository>();
+builder.Services.AddScoped<IChatRepository, ChatRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
 
 //var secretKey = builder.Configuration["Appsettings:SecretKey"];

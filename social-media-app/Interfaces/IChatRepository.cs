@@ -4,8 +4,9 @@ namespace social_media_app.IRepository
 {
     public interface IChatRepository
     {
-        Task<Chat> CreateChatAsync(User user, User user2);
-        Task<Chat> FindChatByIdAsync(int chatId);
-        Task<Chat> FindUsersChatAsync(int userId);
+        public Task<Chat> CreateChat(User user, User user2);
+        public Task<Chat> FindChatById(int chatId);
+        public Task<IEnumerable<Chat>> FindUsersChat(int userId);
+        public Task<Chat> FindChatByUsers(User user, User reqUser);
     }
 }

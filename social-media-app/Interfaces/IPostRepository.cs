@@ -13,5 +13,6 @@ namespace social_media_app.Interfaces
         public Task<ActionResult<IEnumerable<Post>>> GetAllPosts();
         public Task<ActionResult<IEnumerable<Post>>> FindPostsByUserId(int userId);
         public Task<Post> SavePost(int postId, int userId);
+        public Task<Post> LikePost(int postId, int userId);
     }
 }

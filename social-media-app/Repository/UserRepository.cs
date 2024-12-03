@@ -64,6 +64,7 @@ namespace social_media_app.Repository
         {
             try
             {
+                jwt = jwt.Replace("Bearer ", string.Empty);
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var validationParameters = new TokenValidationParameters
                 {

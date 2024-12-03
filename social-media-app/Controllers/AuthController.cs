@@ -16,7 +16,7 @@ using social_media_app.Response;
 
 namespace social_media_app.Controllers
 {
-    [Route("auth")]
+    [Route("auth/")]
     [ApiController]
     public class AuthController : ControllerBase
     {

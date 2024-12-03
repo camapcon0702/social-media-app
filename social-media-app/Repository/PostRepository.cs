@@ -91,21 +91,50 @@ namespace social_media_app.Repository
         {
             var posts = await _context.posts
                 .Where(p => p.user.Id == userId)
+                .Include(p => p.user)
                 .ToListAsync();
             return posts;
         }
 
         public async Task<ActionResult<IEnumerable<Post>>> GetAllPosts()
         {
-            return await _context.posts.ToListAsync();
+            return await _context.posts
+                .Include(p => p.user)
+                .ToListAsync();
         }
 
-        //public async Task<Post> SavePost(int postId, int userId)
-        //{
-        //    var post = await FindPostById(postId);
-        //    var user = await _userRepository.FindUserById(userId);
+        public async Task<Post> SavePost(int postId, int userId)
+        {
+            var post = await FindPostById(postId);
+            var user = await _userRepository.FindUserById(userId);
 
+            if (user.savedPost.Contains(post))
+            {
+                user.savedPost.Remove(post);
+            }
+            else
+            {
+                user.savedPost.Add(post);
+            }
+            await _context.SaveChangesAsync();
+            return post;
+        }
 
-        //}
+        public async Task<Post> LikePost(int postId, int userId)
+        {
+            var post = await FindPostById(postId);
+            var user = await _userRepository.FindUserById(userId);
+
+            if (user.likedPost.Contains(post))
+            {
+                user.likedPost.Remove(post);
+            }
+            else
+            {
+                user.likedPost.Add(post);
+            }
+            await _context.SaveChangesAsync();
+            return post;
+        }
     }
 }

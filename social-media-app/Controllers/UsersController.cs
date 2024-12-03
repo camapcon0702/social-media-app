@@ -8,7 +8,7 @@ using social_media_app.Models;
 
 namespace social_media_app.Controllers
 {
-    [Route("")]
+    [Route("api/")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -23,7 +23,7 @@ namespace social_media_app.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpGet("api/users/profile")]
+        [HttpGet("users/profile")]
         [Authorize]
         public async Task<ActionResult<User>> GetUserFromToken([FromHeader(Name = "Authorization")] string jwtToken)
         {
@@ -41,21 +41,21 @@ namespace social_media_app.Controllers
             }
         }
 
-        [HttpGet("api/users")]
+        [HttpGet("users")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
             return await _userRepository.GetAllUsers();
         }
 
-        [HttpGet("api/users/search")]
+        [HttpGet("users/search")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<User>>> SearchUser([FromQuery(Name = "query")] string query)
         {
             return await _userRepository.SearchUser(query);
         }
 
-        [HttpPut("api/users/follow/{userId2}")]
+        [HttpPut("users/follow/{userId2}")]
         [Authorize]
         public async Task<ActionResult<User>> FollowUserHandler([FromHeader(Name = "Authorization")] string jwtToken, int userId2)
         {
@@ -73,7 +73,7 @@ namespace social_media_app.Controllers
             }
         }
 
-        [HttpDelete("api/users/{userId}")]
+        [HttpDelete("users/{userId}")]
         [Authorize]
         public async Task<string> DeleteUserById(int userId)
         {
@@ -81,7 +81,7 @@ namespace social_media_app.Controllers
             return "Remove user have id = " + userId + " success!";
         }
 
-        [HttpPut("api/users")]
+        [HttpPut("users")]
         [Authorize]
         public async Task<ActionResult<User>> UpdateUserById([FromHeader(Name = "Authorization")] string jwtToken, [FromBody] User user)
         {
@@ -99,7 +99,8 @@ namespace social_media_app.Controllers
             }
         }
 
-        [HttpGet("api/users/{userId}")]
+        [HttpGet("users/{userId}")]
+        [Authorize]
         public async Task<ActionResult<User>> GetUserById(int userId)
         {
             return await _userRepository.FindUserById(userId);
