@@ -98,9 +98,9 @@ namespace social_media_app.Controllers
                 var post = await _postRepository.SavePost(postId, reqUser.Id);
                 return Ok(post);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Can't save post");
+                throw new Exception("Can't save post " + ex.Message);
             }
         }
 
@@ -114,9 +114,9 @@ namespace social_media_app.Controllers
                 var post = await _postRepository.LikePost(postId, reqUser.Id);
                 return Ok(post);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Error!");
+                throw new Exception("Can't like post " + ex.Message);
             }
         }
     }

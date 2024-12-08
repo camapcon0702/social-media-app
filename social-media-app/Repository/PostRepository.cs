@@ -79,7 +79,11 @@ namespace social_media_app.Repository
 
         public async Task<Post> FindPostById(int postId)
         {
-            Post post = await _context.posts.FindAsync(postId);
+            var post = await _context.posts
+                .Where(p => p.Id == postId)
+                .Include(p => p.saved)
+                .Include(p => p.liked)
+                .FirstOrDefaultAsync();
             if (post == null)
             {
                 throw new Exception("Post not found!");
@@ -111,10 +115,12 @@ namespace social_media_app.Repository
             if (user.savedPost.Contains(post))
             {
                 user.savedPost.Remove(post);
+                post.saved.Remove(user);
             }
             else
             {
                 user.savedPost.Add(post);
+                post.saved.Add(user);
             }
             await _context.SaveChangesAsync();
             return post;
@@ -128,10 +134,12 @@ namespace social_media_app.Repository
             if (user.likedPost.Contains(post))
             {
                 user.likedPost.Remove(post);
+                post.liked.Remove(user);
             }
             else
             {
                 user.likedPost.Add(post);
+                post.liked.Add(user);
             }
             await _context.SaveChangesAsync();
             return post;

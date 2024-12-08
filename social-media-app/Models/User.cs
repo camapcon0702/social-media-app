@@ -16,8 +16,12 @@ namespace social_media_app.Models
         public string? gender { get; set; }
         public List<int>? followers { get; set; } = new List<int>();
         public List<int>? following { get; set; } = new List<int>();
-        [JsonIgnore] public List<Post> savedPost { get; set; } = new List<Post>();
-        [JsonIgnore] public List<Post> likedPost { get; set; } = new List<Post>();
+
+        [JsonIgnore]
+        public List<Post>? savedPost { get; set; } = new List<Post>();
+        
+        [JsonIgnore]
+        public List<Post>? likedPost { get; set; } = new List<Post>();
         [JsonIgnore] public List<Post> posts { get; set; } = new List<Post>();
         [JsonIgnore] public List<Chat> chats { get; set; } = new List<Chat>();
         [JsonIgnore] public List<Message> messages { get; set; } = new List<Message>();

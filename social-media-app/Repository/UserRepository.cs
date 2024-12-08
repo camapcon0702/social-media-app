@@ -52,7 +52,11 @@ namespace social_media_app.Repository
 
         public async Task<User> FindUserById(int userId)
         {
-            var user = await _context.users.FindAsync(userId);
+            var user = await _context.users
+                .Where(u => u.Id == userId)
+                .Include(u => u.savedPost)
+                .Include(u => u.likedPost)
+                .FirstOrDefaultAsync();
             if (user == null)
             {
                 throw new Exception("Not found!");
@@ -133,7 +137,9 @@ namespace social_media_app.Repository
 
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
-            return await _context.users.ToListAsync();
+            return await _context.users
+                .Include(u => u.savedPost)
+                .ToListAsync();
         }
 
         public async Task<List<User>> SearchUser(string query)
