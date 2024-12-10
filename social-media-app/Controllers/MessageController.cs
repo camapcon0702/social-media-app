@@ -18,7 +18,7 @@ namespace social_media_app.Controllers
             _messageRepository = messageRepository;
         }
 
-        [HttpPost("message/chat/{chatId}")]
+        [HttpPost("messages/chat/{chatId}")]
         [Authorize]
         public async Task<ActionResult<Message>> CreateNewMessage([FromHeader(Name = "Authorization")] string jwt, [FromBody] Message message, int chatId)
         {
@@ -27,7 +27,7 @@ namespace social_media_app.Controllers
             return Ok(newMessage);
         }
 
-        [HttpGet("message/chat/{chatId}")]
+        [HttpGet("messages/chat/{chatId}")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<Message>>> FindChatsMessages(int chatId)
         {
