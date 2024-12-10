@@ -104,6 +104,7 @@ namespace social_media_app.Repository
         {
             return await _context.posts
                 .Include(p => p.user)
+                .Include(p => p.liked)
                 .ToListAsync();
         }
 

@@ -14,7 +14,8 @@ namespace social_media_app.Models
 
         //[JsonIgnore]
         public User? user { get; set; }
-        [JsonIgnore] public List<User>? liked { get; set; } = new List<User>();
+        //[JsonIgnore] 
+        public List<User>? liked { get; set; } = new List<User>();
         [JsonIgnore] public List<User>? saved { get; set; } = new List<User>();
         public DateTime? createAt { get; set; }
         public List<Comment> comments { get; set; } = new List<Comment>();
