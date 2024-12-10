@@ -96,6 +96,7 @@ namespace social_media_app.Repository
             var posts = await _context.posts
                 .Where(p => p.user.Id == userId)
                 .Include(p => p.user)
+                .Include(p => p.liked)
                 .ToListAsync();
             return posts;
         }
